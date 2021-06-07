@@ -1,5 +1,6 @@
 package org.launchcode.java.demos.lsn4classes2;
 
+
 public class Student {
 
     private static int nextStudentId = 1;
@@ -30,13 +31,27 @@ public class Student {
 
 
      //TODO: Uncomment and complete the getGradeLevel method here:
-//    public String getGradeLevel() {
+    public String getGradeLevel() {
+        if (numberOfCredits <= 29) {
+            return "freshman";
+        }else if (numberOfCredits <= 59) {
+            return "sophmore";
+        }if (numberOfCredits <= 89) {
+            return "junior";
+        }else  {
+            return "senior";
+        }
 //        // Determine the grade level of the student based on numberOfCredits
-//    }
+       }
 
     // TODO: Complete the addGrade method.
     public void addGrade(int courseCredits, double grade) {
         // Update the appropriate fields: numberOfCredits, gpa
+        double currentTotalQualityScore = gpa * numberOfCredits;
+        currentTotalQualityScore += courseCredits * grade;
+        numberOfCredits += courseCredits;
+        gpa = currentTotalQualityScore/numberOfCredits;
+
     }
 
     // TODO: Add your custom 'toString' method here. Make sure it returns a well-formatted String rather
@@ -76,14 +91,42 @@ public class Student {
     private void setNumberOfCredits(int numberOfCredits) {
         this.numberOfCredits = numberOfCredits;
     }
+     @Override
+    public String toString(){
+        String studentReport = String.format("%s is a %s with %d credits and a GPA of %.2f", name, getGradeLevel(),getNumberOfCredits(),getGpa());
+        return studentReport;
+    }
+
+    @Override
+    public boolean equals(Object toBeCompared){
+        if(toBeCompared == this){
+            return true;
+        }
+        if(toBeCompared == null){
+            return false;
+        }
+        if(toBeCompared.getClass() != getClass()){
+            return false;
+        }
+        Student theStudent = (Student) toBeCompared;
+                return theStudent.getStudentId() == this.getStudentId();
+    }
 
     public static void main(String[] args) {
         Student sally = new Student("Sally",1,1,4.0);
+        Student sally2 = new Student("Sally",1,1,4.0);
         System.out.println("The Student class works! " + sally.getName() + " is a student!");
         System.out.println(sally);
+        System.out.println(sally.getNumberOfCredits());
+        System.out.println(sally.getGradeLevel());
+        System.out.println(sally.getGpa());
         sally.addGrade(12, 3.5);
         System.out.println(sally);
         sally.addGrade(25, 3.8);
-        System.out.println(sally);
+        sally.addGrade(25, 4.8);
+        sally.addGrade(48, 4.8);
+        System.out.println(sally.getGradeLevel());
+        System.out.println(sally.getGpa());
+        System.out.println(sally.toString());
     }
 }
